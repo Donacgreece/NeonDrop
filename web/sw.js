@@ -1,4 +1,4 @@
-const CACHE='neon-drop-v7';
+const CACHE='neon-drop-v8';
 const SHELL=['./','index.html','game.js','favicon.svg','manifest.webmanifest','og.png'];
 
 self.addEventListener('install',event=>{
