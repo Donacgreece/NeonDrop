@@ -42,6 +42,18 @@ h1 span { display:block; color:var(--acid); }
 .leader-row b { color:var(--acid); text-align:right; }
 .leader-empty { color:#777080; font-size:10px; line-height:1.5; }
 .tap-hint { position:absolute; z-index:5; left:50%; bottom:calc(max(32px,env(safe-area-inset-bottom)) + 24px); transform:translateX(-50%); font-size:10px; letter-spacing:.2em; color:#aaa4b7; white-space:nowrap; pointer-events:none; opacity:.8; }
+.lives { position:absolute; z-index:6; top:calc(max(16px,env(safe-area-inset-top)) + 58px); left:18px; display:flex; gap:6px; font-size:13px; color:var(--hot); text-shadow:0 0 12px var(--hot); }
+.lives .lost { color:#393441; text-shadow:none; }
+.player-name { width:min(100%,330px); height:48px; margin:0 0 12px; border:1px solid #51495e; outline:none; background:#0b0a10; color:var(--paper); text-align:center; text-transform:uppercase; letter-spacing:.12em; }
+.player-name:focus { border-color:var(--acid); }
+.control-demo { position:relative; width:min(78vw,290px); height:100px; margin:24px 0 4px; overflow:hidden; }
+.demo-gap { position:absolute; left:0; right:0; bottom:15px; height:7px; background:linear-gradient(90deg,var(--cyan) 0 31%,transparent 31% 69%,var(--cyan) 69%); box-shadow:0 0 10px var(--cyan); }
+.demo-ball { position:absolute; left:48%; top:3px; width:24px; height:24px; border-radius:50%; background:var(--paper); box-shadow:0 0 18px var(--acid); animation:demo-ball 2.2s ease-in-out infinite; }
+.demo-hand { position:absolute; left:46%; top:38px; font-size:28px; animation:demo-hand 2.2s ease-in-out infinite; }
+@keyframes demo-ball { 0%,100%{transform:translateX(-70px)} 50%{transform:translateX(70px)} }
+@keyframes demo-hand { 0%,100%{transform:translateX(-65px)} 50%{transform:translateX(65px)} }
+.countdown-screen { background:rgba(10,9,16,.58); }
+.countdown { color:var(--acid); font-size:clamp(110px,35vw,190px); line-height:.8; font-weight:950; letter-spacing:-.12em; text-shadow:7px 7px 0 var(--hot); }
 .ad-slot { display:none; }
 @media (min-width:900px) and (min-height:700px) { .ad-slot { display:block; position:fixed; right:22px; bottom:22px; padding:10px 16px; border:1px dashed #383242; color:#565060; font-size:8px; letter-spacing:.15em; } }
 @media (prefers-reduced-motion:reduce) { * { animation:none!important; transition:none!important; } }
