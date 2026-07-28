@@ -1,5 +1,5 @@
-const CACHE='neon-drop-v6';
-const SHELL=['./','index.html','favicon.svg','manifest.webmanifest','og.png'];
+const CACHE='neon-drop-v7';
+const SHELL=['./','index.html','game.js','favicon.svg','manifest.webmanifest','og.png'];
 
 self.addEventListener('install',event=>{
   event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(SHELL)).then(()=>self.skipWaiting()));
@@ -7,6 +7,10 @@ self.addEventListener('install',event=>{
 
 self.addEventListener('activate',event=>{
   event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(key=>key!==CACHE).map(key=>caches.delete(key)))).then(()=>self.clients.claim()));
+});
+
+self.addEventListener('message',event=>{
+  if(event.data==='activate')self.skipWaiting();
 });
 
 self.addEventListener('fetch',event=>{
