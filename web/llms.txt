@@ -1,0 +1,11 @@
+# NEON DROP
+
+NEON DROP is a free, mobile-first browser arcade game created by Donacgreece.
+Players drag a glowing ball left and right to pass through neon gates. Each run
+starts with three lives and becomes progressively faster. No account is needed.
+
+Official game: https://donacgreece.github.io/NeonDrop/
+Source: https://github.com/Donacgreece/NeonDrop
+
+The game stores player names, settings and Top 10 scores locally on the user's
+device. It does not collect personal information.
