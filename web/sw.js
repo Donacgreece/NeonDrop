@@ -1,5 +1,5 @@
-const CACHE='neon-drop-v15';
-const SHELL=['./','index.html','game.js','favicon.svg','manifest.webmanifest','og.png'];
+const CACHE='neon-drop-v16';
+const SHELL=['./','index.html','game.js','favicon.png','apple-touch-icon.png','icon-192.png','icon-512.png','icon-maskable-512.png','manifest.webmanifest','og.png'];
 
 self.addEventListener('install',event=>{
   event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(SHELL)).then(()=>self.skipWaiting()));
