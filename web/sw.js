@@ -1,4 +1,4 @@
-const CACHE='neon-drop-v35';
+const CACHE='neon-drop-v36';
 const SHELL=['./','index.html','game.js','favicon.png','apple-touch-icon.png','icon-192.png','icon-512.png','icon-maskable-512.png','manifest.webmanifest','og.png'];
 
 self.addEventListener('install',event=>{
@@ -15,8 +15,10 @@ self.addEventListener('message',event=>{
 
 self.addEventListener('fetch',event=>{
   if(event.request.method!=='GET'||new URL(event.request.url).origin!==self.location.origin)return;
-  event.respondWith(fetch(event.request).then(response=>{
+  const url=new URL(event.request.url),isApi=url.pathname.includes('/api/');
+  if(isApi){event.respondWith(fetch(event.request).catch(()=>caches.match(event.request)));return;}
+  event.respondWith(caches.match(event.request,{ignoreSearch:true}).then(cached=>cached||fetch(event.request).then(response=>{
     if(response.ok){const copy=response.clone();caches.open(CACHE).then(cache=>cache.put(event.request,copy));}
     return response;
-  }).catch(()=>caches.match(event.request).then(cached=>cached||caches.match('./'))));
+  })).catch(()=>caches.match('./')));
 });
