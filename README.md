@@ -29,3 +29,12 @@ names remain in the browser on the player's device.
 
 The production-ready static website is in `web/` and is deployed automatically
 to GitHub Pages from `main`.
+
+## Copyright
+
+Copyright © 2026 Donacgreece. All rights reserved.
+
+This repository is publicly accessible for source review and deployment
+transparency only. No permission is granted to copy, modify, redistribute,
+repackage or commercially use the project. See [COPYRIGHT.md](COPYRIGHT.md) for
+the complete notice.
