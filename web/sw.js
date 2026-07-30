@@ -1,4 +1,4 @@
-const CACHE='neon-drop-v40';
+const CACHE='neon-drop-v41';
 const SHELL=['./','index.html','privacy.html','game.js','favicon.png','apple-touch-icon.png','icon-192.png','icon-512.png','icon-maskable-512.png','manifest.webmanifest','og.png'];
 
 self.addEventListener('install',event=>{
