@@ -2,6 +2,12 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
+  <script>
+    if (location.hostname.toLowerCase() === 'donacgreece.github.io') {
+      const path = location.pathname.replace(/^\/NeonDrop(?=\/|$)/i, '') || '/';
+      location.replace(`https://neondrop.net${path}${location.search}${location.hash}`);
+    }
+  </script>
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <title>Privacy Policy | NEON DROP</title>
   <meta name="description" content="Privacy Policy for the NEON DROP mobile arcade game.">
