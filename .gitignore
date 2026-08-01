@@ -5,3 +5,5 @@
 !.github/**
 !web/
 !web/**
+!supabase/
+!supabase/**
