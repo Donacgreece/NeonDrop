@@ -125,11 +125,6 @@
       localStorage.removeItem(PENDING_KEY);
       return result;
     } catch (error) {
-      if (error.code === "23505" || /unique|already exists|duplicate/i.test(error.message)) {
-        localStorage.removeItem(PENDING_KEY);
-        window.dispatchEvent(new CustomEvent("neon-username-taken", { detail: { name: normalizedName } }));
-        return { skipped: true, reason: "username_taken" };
-      }
       const previous = readJSON(PENDING_KEY);
       if (!previous || payload.p_score > previous.p_score) localStorage.setItem(PENDING_KEY, JSON.stringify(payload));
       throw error;
@@ -146,12 +141,7 @@
     try {
       await rpc("submit_neon_score", pending);
       localStorage.removeItem(PENDING_KEY);
-    } catch (error) {
-      if (error.code === "23505" || /unique|already exists|duplicate/i.test(error.message)) {
-        localStorage.removeItem(PENDING_KEY);
-        window.dispatchEvent(new CustomEvent("neon-username-taken", { detail: { name: pending.p_player_name } }));
-      }
-    }
+    } catch {}
   };
 
   const init = async () => {
