@@ -16,7 +16,7 @@ as a fullscreen Progressive Web App.
 
 ## Play now
 
-https://donacgreece.github.io/NeonDrop/
+https://neondrop.net/
 
 No account or initial download is required.
 
