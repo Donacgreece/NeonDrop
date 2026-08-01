@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://donacgreece.github.io/NeonDrop/sitemap.xml
+Sitemap: https://neondrop.net/sitemap.xml
