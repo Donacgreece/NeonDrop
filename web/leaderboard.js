@@ -6,6 +6,13 @@
   const SESSION_KEY = "ndSupabaseSession";
   const PENDING_KEY = "ndPendingGlobalScore";
   const CACHE_KEY = "ndGlobalLeaderboard";
+  const RESERVED_NAMES = new Set(["PLAYER", "ADMIN", "NEONDROP", "GOOGLE", "APPLE"]);
+
+  const normalizeName = value => String(value || "").toUpperCase().replace(/[^A-Z0-9_]/g, "").slice(0, 12);
+  const validGlobalName = value => {
+    const name = normalizeName(value);
+    return /^[A-Z][A-Z0-9_]{2,11}$/.test(name) && !RESERVED_NAMES.has(name);
+  };
 
   const readJSON = (key, fallback = null) => {
     try {
@@ -67,7 +74,11 @@
       body: JSON.stringify(body)
     });
     const data = await response.json().catch(() => null);
-    if (!response.ok) throw new Error(data?.message || data?.hint || "Leaderboard request failed");
+    if (!response.ok) {
+      const error = new Error(data?.message || data?.hint || "Leaderboard request failed");
+      error.code = data?.code || "";
+      throw error;
+    }
     return data;
   };
 
@@ -96,8 +107,13 @@
   };
 
   const submit = async ({ playerName, score, gates, bestCombo }) => {
+    const normalizedName = normalizeName(playerName);
+    if (!validGlobalName(normalizedName)) {
+      localStorage.removeItem(PENDING_KEY);
+      return { skipped: true, reason: "name_required" };
+    }
     const payload = {
-      p_player_name: String(playerName || "PLAYER").toUpperCase().replace(/[^A-Z0-9_]/g, "").slice(0, 12) || "PLAYER",
+      p_player_name: normalizedName,
       p_score: Math.max(0, Math.floor(score || 0)),
       p_platform: platform(),
       p_gates: Math.max(0, Math.floor(gates || 0)),
@@ -109,6 +125,11 @@
       localStorage.removeItem(PENDING_KEY);
       return result;
     } catch (error) {
+      if (error.code === "23505" || /unique|already exists|duplicate/i.test(error.message)) {
+        localStorage.removeItem(PENDING_KEY);
+        window.dispatchEvent(new CustomEvent("neon-username-taken", { detail: { name: normalizedName } }));
+        return { skipped: true, reason: "username_taken" };
+      }
       const previous = readJSON(PENDING_KEY);
       if (!previous || payload.p_score > previous.p_score) localStorage.setItem(PENDING_KEY, JSON.stringify(payload));
       throw error;
@@ -118,10 +139,19 @@
   const flushPending = async () => {
     const pending = readJSON(PENDING_KEY);
     if (!pending) return;
+    if (!validGlobalName(pending.p_player_name)) {
+      localStorage.removeItem(PENDING_KEY);
+      return;
+    }
     try {
       await rpc("submit_neon_score", pending);
       localStorage.removeItem(PENDING_KEY);
-    } catch {}
+    } catch (error) {
+      if (error.code === "23505" || /unique|already exists|duplicate/i.test(error.message)) {
+        localStorage.removeItem(PENDING_KEY);
+        window.dispatchEvent(new CustomEvent("neon-username-taken", { detail: { name: pending.p_player_name } }));
+      }
+    }
   };
 
   const init = async () => {
@@ -129,5 +159,5 @@
     await flushPending();
   };
 
-  window.NeonGlobal = { init, load, submit, platform };
+  window.NeonGlobal = { init, load, submit, platform, validGlobalName };
 })();
