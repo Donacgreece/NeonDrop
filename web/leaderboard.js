@@ -131,6 +131,14 @@
     }
   };
 
+  const renamePlayer = async playerName => {
+    const normalizedName = normalizeName(playerName);
+    if (!validGlobalName(normalizedName)) return { changed: false, reason: "invalid_name" };
+    const result = await rpc("rename_neon_player", { p_player_name: normalizedName });
+    const row = Array.isArray(result) ? result[0] : result;
+    return { changed: true, playerName: row?.player_name || normalizedName, nextChangeAt: row?.next_change_at || null };
+  };
+
   const flushPending = async () => {
     const pending = readJSON(PENDING_KEY);
     if (!pending) return;
@@ -149,5 +157,5 @@
     await flushPending();
   };
 
-  window.NeonGlobal = { init, load, submit, platform, validGlobalName };
+  window.NeonGlobal = { init, load, submit, renamePlayer, platform, validGlobalName };
 })();
