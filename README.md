@@ -1,7 +1,7 @@
 # NEON DROP
 
 <p align="center">
-  <img src="web/og.png" alt="NEON DROP mobile arcade game" width="720">
+  <img src="web/og.png" alt="NEON DROP mobile arcade game" width="100%">
 </p>
 
 <p align="center"><strong>One thumb. Zero excuses.</strong></p>
